@@ -50,10 +50,51 @@ namespace WebProject.Controllers
         }
         public ActionResult DataGraph2()
         {
-            var result = from post in db.Posts
-                         select new { name = post.Title, size = 4 };
+            IEnumerable<dynamic> result = from fan in db.fans
+                                          join post in db.Posts on fan.ID equals post.FanID
+                                          select new
+                                          {
+                                              name = fan.FirstName + " " + fan.LastName,
+                                              postId = post.ID,
+                                              children = post.Comments.Select(comment => new { name = comment.Fan.FirstName + " " + comment.Fan.LastName })
+                                          };
 
-            return Json(result, "application/json", JsonRequestBehavior.AllowGet);
+            // Key = postId
+            Dictionary<int, List<Object>> allPosts = new Dictionary<int, List<object>>();
+
+            foreach (var currentPost in result)
+            {
+                if (!allPosts.ContainsKey(currentPost.postId))
+                {
+                    allPosts.Add(currentPost.postId, new List<Object>());
+                }
+
+                allPosts[currentPost.postId].Add(currentPost.children);
+            }
+
+            List<dynamic> finalList = new List<dynamic>();
+
+            foreach (var currentPost in allPosts)
+            {
+                int postID = currentPost.Key;
+
+                Post post = db.Posts.First(p => p.ID.Equals(postID));
+                Fan fan = db.fans.First(f => f.ID.Equals(post.FanID));
+
+                finalList.Add(new { name = fan.FirstName +
+                                           " " +
+                                           fan.LastName,
+                                    children = currentPost.Value });
+            }
+
+            //var result = from post in db.Posts
+            //             select new
+            //             {
+            //                 name = post.Title,
+            //                 children = post.Comments.Select(comment => new { name = comment.Fan.FirstName + " " + comment.Fan.LastName })
+            //             };
+
+            return Json(new { name = "Root", children = result }, "application/json", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Error()

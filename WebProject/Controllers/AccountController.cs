@@ -363,6 +363,7 @@ namespace WebProject.Controllers
 
             if (ModelState.IsValid)
             {
+
                 // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
@@ -371,6 +372,12 @@ namespace WebProject.Controllers
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
+
+                //if (result.ExtraData.Keys.Contains("accesstoken"))
+                //{
+                //    Session["facebooktoken"] = result.ExtraData["accesstoken"];
+                //}
+
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
