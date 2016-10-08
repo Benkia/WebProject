@@ -1,0 +1,113 @@
+﻿@model IEnumerable<WebProject.Models.Comment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var user = ((System.Security.Claims.ClaimsIdentity)User.Identity);
+
+    var MyFanID = int.Parse(user.FindFirst("FanID").Value);
+    var isAdmin = bool.Parse(user.FindFirst("isAdmin").Value);
+}
+
+<h2>Search Comments</h2>
+@using (Html.BeginForm("SearchComments", "Comments", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        Min Comment Date:
+        <input type="date" name="date"><br>
+
+        Commented By:
+        <input type="text" name="commentedBy"><br>
+
+        Text From Comment:
+        <input type="text" name="textFromComment"><br>
+
+        Comment Title:
+        <input type="text" name="title"><br>
+
+        Post Title:
+        <input type="text" name="postTitle"><br>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Search Results</h1>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Post
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SiteAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReferencedPost.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @if (item.Fan != null)
+            {
+                <a href="~/Fans/Details/@item.Fan.ID">@item.Fan.FirstName @item.Fan.LastName</a>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SiteAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @if (isAdmin || item.FanID.Equals(MyFanID))
+            {
+                @Html.ActionLink("Edit ", "Edit", new { id = item.ID })
+                @Html.Label("|");
+            }
+
+            @Html.ActionLink("Details", "Details", new { id = item.ID })
+
+            @if (isAdmin || item.FanID.Equals(MyFanID))
+            {
+                @Html.Label("|");
+                @Html.ActionLink(" Delete", "Delete", new { id = item.ID })
+            }
+        </td>
+    </tr>
+}
+
+</table>
