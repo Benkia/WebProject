@@ -15,7 +15,7 @@ namespace WebProject.Models
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ExternalCookie);
 
             // Add the claims to user identity, so we can get them from the cshtmls later.
             userIdentity.AddClaim(new Claim("FanID", this.FanID.ToString()));

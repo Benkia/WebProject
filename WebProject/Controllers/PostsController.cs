@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Facebook;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -71,11 +73,43 @@ namespace WebProject.Controllers
                 
                 db.Posts.Add(post);
                 db.SaveChanges();
+
+                postChangesOnFacebookPage();
+
                 return RedirectToAction("Index");
             }
 
             setSelectLists(post);
             return View(post);
+        }
+
+        private void postChangesOnFacebookPage()
+        {
+            System.Security.Claims.Claim FacebookAccessToken = (System.Security.Claims.Claim)HttpContext.Session["FacebookAccessToken"];
+
+            if (FacebookAccessToken != null)
+            {
+                dynamic messagePost = new ExpandoObject();
+                messagePost.access_token = FacebookAccessToken.Value;
+                messagePost.link = "www.google.co.il";
+                messagePost.name = "Hi my friend";
+                messagePost.description = "Description";
+
+                FacebookClient app = new FacebookClient(FacebookAccessToken.Value);
+
+                try
+                {
+                    var result = app.Post("/me/feed", messagePost);
+                }
+                catch (FacebookOAuthException ex)
+                {
+                    //handle something
+                }
+                catch (FacebookApiException ex)
+                {
+                    //handle something else
+                }
+            }
         }
 
         // GET: Posts/Edit/5

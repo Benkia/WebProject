@@ -117,9 +117,12 @@ namespace WebProject.Controllers
             comment.PostID = actualPostID;
 
 //            ViewBag.FanID = new SelectList(db.fans, "ID", "FirstName");
-            setSelectLists();
+            var redirtectTo = setSelectLists();
 
-            return PartialView(comment);
+            if (redirtectTo == null)
+                return PartialView(comment);
+
+            return redirtectTo;
         }
 
         // POST: Comments/Create
@@ -234,19 +237,34 @@ namespace WebProject.Controllers
             return View(comment);
         }
 
-        private void setSelectLists()
+        private ActionResult setSelectLists()
         {
             ViewBag.PostID = new SelectList(db.Posts, "ID", "Title");
-            int MyFanID = int.Parse(((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("FanID").Value);
 
-            var fans = db.fans.ToList().Where(fan => fan.ID.Equals(MyFanID))
-                         .Select(fan => new
-                         {
-                             FanID = fan.ID,
-                             FullName = string.Format("{0} {1} ({2})", fan.FirstName, fan.LastName, fan.Gender.ToString())
-                         });
+            try
+            {
+                if (((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("FanID") != null)
+                {
+                    int MyFanID = int.Parse(((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("FanID").Value);
 
-            ViewBag.FanID = new SelectList(fans, "FanID", "FullName");
+                    var fans = db.fans.ToList().Where(fan => fan.ID.Equals(MyFanID))
+                                 .Select(fan => new
+                                 {
+                                     FanID = fan.ID,
+                                     FullName = string.Format("{0} {1} ({2})", fan.FirstName, fan.LastName, fan.Gender.ToString())
+                                 });
+
+                    ViewBag.FanID = new SelectList(fans, "FanID", "FullName");
+
+                    return null;
+                }
+
+                return RedirectToAction("Login");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         private void setSelectLists(Comment comment)

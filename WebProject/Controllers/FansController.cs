@@ -52,6 +52,13 @@ namespace WebProject.Controllers
         // GET: Fans/Create
         public ActionResult Create()
         {
+            var user = ((System.Security.Claims.ClaimsIdentity)User.Identity);
+
+            if (user.FindFirst("FanID") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 

@@ -1,6 +1,8 @@
 /* 
 Ben kiani : 205563398
-Naveh Ohana : 205465586 
+Naveh Ohana : 205465586
+Asaf Fadida : 205589401
+Aviad Avretz : 312538747
 */
 
 /*------------------------------
@@ -161,7 +163,7 @@ nav {
 
 
 /*------------------------------
-=CONTENT AREA AND SIDEBAR LAYOUT
+=aENT AREA AND SIDEBAR LAYOUT
 ------------------------------*/
 
 #content {
@@ -176,9 +178,35 @@ nav {
 	
 	aside {
 		display: table-cell;
+        border-radius: 25px;
 		width: 300px;
 		background: linear-gradient(green, indigo);
 	}
+
+   canvas {
+        border-radius: 25px;
+    }
+
+.newspaper {
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+    -webkit-column-width: 150px; /* Chrome, Safari, Opera */
+    -moz-column-width: 150px; /* Firefox */
+    column-width: 150px;
+    -webkit-column-gap: 40px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 40px; /* Firefox */
+    column-gap: 40px;
+    -webkit-column-rule-style: solid; /* Chrome, Safari, Opera */
+    -moz-column-rule-style: solid; /* Firefox */
+    column-rule-style: solid;
+    -webkit-column-rule-width: 1px; /* Chrome, Safari, Opera */
+    -moz-column-rule-width: 1px; /* Firefox */
+    column-rule-width: 1px;
+    -webkit-column-rule-color: lightblue; /* Chrome, Safari, Opera */
+    -moz-column-rule-color: lightblue; /* Firefox */
+    column-rule-color: lightblue;
+}
 
 
 span.field-validation-error
@@ -197,6 +225,7 @@ span.validation-summary-errors
 aside section {
 	margin: 22px 0 0 22px;
 	padding: 11px 22px;
+    border-radius: 25px;
 	background: linear-gradient(green, #1CFF98);
 	
 	/* Border-radius not implemented yet */

@@ -6,6 +6,9 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using WebProject.Models;
+using Microsoft.Owin.Security.Facebook;
+using System.Configuration;
+using System.Threading.Tasks;
 
 namespace WebProject
 {
@@ -54,9 +57,26 @@ namespace WebProject
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "1788029871456285",
-               appSecret: "ad4a534810ede76ed48f542706584802");
+            app.UseFacebookAuthentication(new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions()
+            {
+                AppId = "1788029871456285",
+                AppSecret = "ad4a534810ede76ed48f542706584802",
+                //SendAppSecretProof = true,
+                Provider = new FacebookAuthenticationProvider
+                {
+                    OnAuthenticated = (context) =>
+                    {
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                        return Task.FromResult(0);
+                    }
+                }
+            });
+
+
+
+            //app.UseFacebookAuthentication(
+               //appId: "1788029871456285",
+               //appSecret: "ad4a534810ede76ed48f542706584802");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

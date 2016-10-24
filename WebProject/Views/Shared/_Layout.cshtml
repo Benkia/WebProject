@@ -125,7 +125,19 @@
 		</footer>
 	<br />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Ben Kiani & Naveh Ohana </p>
+            <canvas id="myCanvas" width="1000" height="100" style="border:1px solid #d3d3d3;" >
+                Your browser does not support the HTML5 canvas tag.
+            </canvas>
+
+            <script>
+             var c = document.getElementById("myCanvas");
+             var ctx = c.getContext("2d");
+             ctx.textAlign = "center";
+             var string = "© @DateTime.Now.Year - Ben Kiani & Naveh Ohana";
+             ctx.font = "30px Arial";
+             ctx.fillText(string, 500, 62);
+            </script>
+
         </footer>
     </div>
 

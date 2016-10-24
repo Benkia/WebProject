@@ -686,7 +686,6 @@ C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\bin\Microsoft.Owin.Security.O
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.csprojResolveAssemblyReference.cache
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.Migrations.InitialCreate.resources
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.Migrations.AddCommentDate.resources
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.Migrations.AddFanIDToComment.resources
@@ -705,3 +704,5 @@ C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.csproj.G
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.dll
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.pdb
 C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\obj\Debug\WebProject.Migrations.AddSetAdminID.resources
+C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\bin\Facebook.dll
+C:\Users\Ben\Desktop\3.1\3.1\WebProject\WebProject\bin\Facebook.xml
