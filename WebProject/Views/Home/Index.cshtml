@@ -1,0 +1,117 @@
+﻿@model IEnumerable<WebProject.Models.Post>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!doctype html>
+<!--
+ Ben kiani : 205563398
+ Naveh Ohana : 205465586
+ Asaf Fadida : 205589401
+ Aviad Avretz : 312538747
+-->
+<html>
+<head>
+	<title>Browser Page title</title>
+</head>
+
+@using (Html.BeginForm("SearchPosts", "Posts", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        Min Blog Date:
+        <input type="date" name="date"><br>
+
+        Bloger name:
+        <input type="text" name="bloggerName"><br>
+
+        Text from comments:
+        <input type="text" name="textFromComments"><br>
+
+        Min comments for post:
+        <input type="range" name="minCommentsPerPost" min="0" max="10", value="0">
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (var item in Model)
+{
+    <div>
+        <body>
+            <!-- Here starts the blog -->
+            <div id="content">
+                <div id="mainContent">
+                    <section>
+                        <article class="blogPost">
+                            <header>
+                                <h2>@item.Title</h2>
+                                <p>
+                                    Posted on <time datetime="2009-06-29T23:31+01:00">@item.Date</time> by 
+                                    <a href=@item.SiteAddress>
+                                    @if (@item.Fan != null)
+                                    {
+                                        <b>@item.Fan.FirstName @item.Fan.LastName</b>
+                                    }
+                                    </a>
+
+                                    @if (item.Comments != null)
+                                    {
+                                        <a href="#comments"> - @item.Comments.Count comments</a>
+                                    }
+                                </p>
+                            </header>
+                            <div>
+                                <p class="newspaper">@item.Text</p>
+
+                                <img src=@item.Picture alt="Picture" />
+
+                                <video controls="controls">
+                                    <source src="@item.Video" type="video/mp4" />
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </article>
+                    </section>
+
+                    <!-- Comments section -->
+                    <section id="comments">
+                        @if (item.Comments != null && item.Comments.Count > 0)
+                        {
+                            <h2>Comments</h2>
+                            foreach (var comment in item.Comments)
+                            {
+                                <article>
+                                    <div>
+                                        <h4>@comment.Title</h4>
+                                        @comment.Text <br />
+                                        <a href=@comment.SiteAddress>@comment.Fan.FirstName @comment.Fan.LastName</a> on <time datetime="2009-06-29T23:35:20+01:00">@comment.Date</time>
+                                    </div>
+                                    
+                                </article>
+                            }
+                        }
+
+                    </section>
+
+                    <!-- New comment form - sending item.ID to CommentsController, which initializes the new Comment -->
+                    @{Html.RenderAction("AddCommentForPost", "Comments", new { PostID = item.ID });}   
+                </div>
+            </div>
+            <!-- Here ends the blog -->
+        </body>
+    </div>
+}
+    <div>
+        <h1>
+            @Html.ActionLink("Add New Post", "Create", "Posts")
+        </h1>
+    </div>
+</html>

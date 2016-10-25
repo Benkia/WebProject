@@ -1,0 +1,241 @@
+﻿
+@{
+    ViewBag.Title = "Graphs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<h1>Graphs</h1>
+
+<head>
+    <style>
+        body {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .bar {
+            fill: orange;
+        }
+
+            .bar:hover {
+                fill: orangered;
+            }
+
+        .x.axis path {
+            display: none;
+        }
+
+        .d3-tip {
+            line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 2px;
+        }
+
+            /* Creates a small triangle extender for the tooltip */
+            .d3-tip:after {
+                box-sizing: border-box;
+                display: inline;
+                font-size: 10px;
+                width: 100%;
+                line-height: 1;
+                color: rgba(0, 0, 0, 0.8);
+                content: "\25BC";
+                position: absolute;
+                text-align: center;
+            }
+
+            /* Style northward tooltips differently */
+            .d3-tip.n:after {
+                margin: -1px 0 0 0;
+                top: 100%;
+                left: 0;
+            }
+
+            .node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+    </style>
+</head>
+
+
+
+<h3>Posts per Pazam In Club</h3>
+
+<svg id="barChart"></svg>
+
+
+<h3>Comments on posts</h3>
+
+
+<svg id="barChart2"></svg>
+
+
+    <script>
+
+
+
+        var margin = { top: 40, right: 20, bottom: 30, left: 40 },
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+        var formatPercent = d3.format("0");
+
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(formatPercent);
+
+        var tip = d3.tip()
+          .attr('class', 'd3-tip')
+          .offset([-10, 0])
+          .html(function (d) {
+              return "<strong>Number_Of_Posts:</strong> <span style='color:red'>" + d.Number_Of_Posts + "</span>";
+          })
+
+        var svg = d3.select("svg#barChart")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        svg.call(tip);
+
+        $.ajax({
+            url: '@Url.Action("DataGraph1", "Home")',
+            type: 'GET',
+            success: function (data) {
+
+                x.domain(data.map(function (d) { return d.PazamInClub; }));
+                y.domain([0, d3.max(data, function (d) { return d.Number_Of_Posts; })]);
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                  .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("Number_Of_Posts");
+
+                svg.selectAll(".bar")
+                    .data(data)
+                  .enter().append("rect")
+                    .attr("class", "bar")
+                    .attr("x", function (d) { return x(d.PazamInClub); })
+                    .attr("width", x.rangeBand())
+                    .attr("y", function (d) { return y(d.Number_Of_Posts); })
+                    .attr("height", function (d) { return height - y(d.Number_Of_Posts); })
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide)
+
+            }
+        });
+
+        function type(d) {
+            d.Number_Of_Posts = +d.Number_Of_Posts;
+            return d;
+        }
+
+
+
+
+    </script>
+
+
+
+<script>
+
+var diameter = 800;
+
+var tree = d3.layout.tree()
+    .size([360, diameter / 2 - 120])
+    .separation(function (a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+
+var svg1 = d3.select("svg#barChart2")
+.attr("width", diameter)
+.attr("height", diameter)
+.append("g")
+.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+var diagonal = d3.svg.diagonal.radial()
+    .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
+
+
+
+$.ajax({
+    url: '@Url.Action("DataGraph2", "Home")',
+    type: 'GET',
+    success: function (root) {
+       
+
+        var nodes = tree.nodes(root),
+            links = tree.links(nodes);
+
+        var link = svg1.selectAll(".link")
+            .data(links)
+          .enter().append("path")
+            .attr("class", "link")
+            .attr("d", diagonal);
+
+        var node = svg1.selectAll(".node")
+            .data(nodes)
+          .enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function (d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+
+        node.append("circle")
+            .attr("r", 4.5);
+
+        node.append("text")
+            .attr("dy", ".31em")
+            .attr("text-anchor", function (d) { return d.x < 180 ? "start" : "end"; })
+            .attr("transform", function (d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+            .text(function (d) { return d.name; });
+    }
+});
+
+d3.select(self.frameElement).style("height", diameter - 150 + "px");
+
+</script>

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebProject.Models.Post>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var user = ((System.Security.Claims.ClaimsIdentity)User.Identity);
+
+    var MyFanID = int.Parse(user.FindFirst("FanID").Value);
+    var isAdmin = bool.Parse(user.FindFirst("isAdmin").Value);
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            Posted by
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SiteAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @if (item.Fan != null)
+            {
+                <a href="~/Fans/Details/@item.Fan.ID">@item.Fan.FirstName @item.Fan.LastName</a>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SiteAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+
+            @if (isAdmin || item.FanID.Equals(MyFanID))
+            {
+                @Html.ActionLink("Edit ", "Edit", new { id = item.ID })
+                @Html.Label("|");
+            }
+            
+            @Html.ActionLink("Details", "SinglePost", "Home", new { id = item.ID }, null) @Html.Label("|")
+
+            @if (isAdmin || item.FanID.Equals(MyFanID))
+            {
+
+                @Html.ActionLink("Delete ", "Delete", new { id = item.ID })
+                @Html.Label("|");
+            }
+
+            @Html.ActionLink("Comments", "FromBlog", "Comments", new { id = item.ID }, null)
+
+        </td>
+    </tr>
+}
+</table>
+
+<p>
+    @Html.ActionLink("Add New Post", "Create")
+</p>

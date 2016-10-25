@@ -1,0 +1,101 @@
+﻿@model IEnumerable<WebProject.Models.Fan>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var user = ((System.Security.Claims.ClaimsIdentity)User.Identity);
+
+    var MyFanID = int.Parse(user.FindFirst("FanID").Value);
+    var isAdmin = bool.Parse(user.FindFirst("isAdmin").Value);
+}
+
+<h2>Search Fans</h2>
+@using (Html.BeginForm("SearchFans", "Fans", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        Min Birthday:
+        <input type="date" name="birthday"><br>
+
+        First Name:
+        <input type="text" name="firstName"><br>
+
+        Last Name:
+        <input type="text" name="lastName"><br>
+
+        Min Pazam In Club:
+        <input type="number" name="pazam" value="0"><br>
+
+   <!--     Gender:
+        <input type="range" name="gender" min="Female" max="Male">
+   -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Index</h1>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PazamInClub)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PazamInClub)
+        </td>
+        <td>
+            @if (isAdmin || item.ID.Equals(MyFanID))
+            {
+                @Html.ActionLink("Edit ", "Edit", new { id = item.ID }) 
+                @Html.Label("|");
+            } 
+                
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) 
+
+            @if (isAdmin /* TODO: When deleting, delete AspUser too */)
+            {
+                @Html.Label("|");
+                @Html.ActionLink(" Delete", "Delete", new { id = item.ID })
+            }
+        </td>
+    </tr>
+}
+
+</table>

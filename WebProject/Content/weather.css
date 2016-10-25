@@ -1,0 +1,28 @@
+#weather {
+    width: 350px;
+    margin: 0 auto;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#weather h2 {
+    color: #999999;
+    font-size: 25px;
+    font-weight: 300;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    padding: 0px 10px 0px 0px;
+    margin: 0
+}
+
+#weather ul {
+    margin: 0;
+    padding: 0;
+}
+
+#weather li {
+    color: #999999;
+    padding: 0px 10px 0px 0px;
+    display: inline-block;
+    border-radius: 5px;
+}

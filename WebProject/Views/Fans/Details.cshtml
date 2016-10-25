@@ -1,0 +1,78 @@
+﻿@model WebProject.Models.Fan
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var user = ((System.Security.Claims.ClaimsIdentity)User.Identity);
+
+    var MyFanID = int.Parse(user.FindFirst("FanID").Value);
+    var isAdmin = bool.Parse(user.FindFirst("isAdmin").Value);
+}
+
+<h2>Details</h2>
+<div>
+    <h4>Fan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PazamInClub)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PazamInClub)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @if (isAdmin || Model.ID.Equals(MyFanID))
+    {
+        @Html.ActionLink("Edit ", "Edit", new { id = Model.ID })
+        @Html.Label("|");
+    }
+
+    @Html.ActionLink("Back to List", "Index")
+</p>
