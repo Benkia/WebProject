@@ -298,7 +298,7 @@ namespace WebProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,Gender,BirthDay,PazamInClub")] Fan fan)
+        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,Gender,BirthDay,PazamInClub,Address")] Fan fan)
         {
             if (ModelState.IsValid)
             {
@@ -321,21 +321,22 @@ namespace WebProject.Controllers
                 authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(User.Identity as ClaimsIdentity), new AuthenticationProperties() { IsPersistent = true });
 
                 /// FOR TEST
+                /// FAAAAAAAAAAAADIIIIIIIIIIIDAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                /// TO HELLLLLLLLLLL WITH YOUUUUUUUUUUUUUUUUUUUUUUU!!!!!!!!!!!!!!!!!
 
-                fanIdClaim = (User.Identity as ClaimsIdentity).FindFirst("isAdmin");
-                if (fanIdClaim != null)
-                    (User.Identity as ClaimsIdentity).RemoveClaim(fanIdClaim);
+                //fanIdClaim = (User.Identity as ClaimsIdentity).FindFirst("isAdmin");
+                //if (fanIdClaim != null)
+                //    (User.Identity as ClaimsIdentity).RemoveClaim(fanIdClaim);
 
-                (User.Identity as ClaimsIdentity).AddClaim(new Claim("isAdmin", true.ToString()));
-                authenticationManager = HttpContext.GetOwinContext().Authentication;
-                authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(User.Identity as ClaimsIdentity), new AuthenticationProperties() { IsPersistent = true });
+                //(User.Identity as ClaimsIdentity).AddClaim(new Claim("isAdmin", true.ToString()));
+                //authenticationManager = HttpContext.GetOwinContext().Authentication;
+                //authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(User.Identity as ClaimsIdentity), new AuthenticationProperties() { IsPersistent = true });
 
                 ///
 
                 // Now that the fan has been saved, it has an ID.
                 // So set the user's FanID to it.
                 user.FanID = fan.ID;
-                user.isAdmin = true;
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -365,7 +366,7 @@ namespace WebProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Gender,BirthDay,PazamInClub")] Fan fan)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Gender,BirthDay,PazamInClub,Address")] Fan fan)
         {
             if (ModelState.IsValid)
             {

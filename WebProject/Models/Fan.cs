@@ -12,6 +12,7 @@ namespace WebProject.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Gender Gender { get; set; }
+        [DataType(DataType.Date)]
         public DateTime BirthDay { get; set; }
         public int PazamInClub { get; set; }
         public string UserID { get; set; }
