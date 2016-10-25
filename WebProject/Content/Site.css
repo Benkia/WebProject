@@ -182,7 +182,7 @@ nav {
 		display: table-cell;
         border-radius: 5px;
 		width: 300px;
-		background: linear-gradient(green, indigo);
+        background: linear-gradient(#ffffff,#222);
 	}
 
    canvas {
@@ -228,7 +228,6 @@ aside section {
 	margin: 22px 0 0 22px;
 	padding: 11px 22px;
     border-radius: 5px;
-	background: linear-gradient(green, #1CFF98);
 	
 	/* Border-radius not implemented yet */
 	-moz-border-radius: 11px;
