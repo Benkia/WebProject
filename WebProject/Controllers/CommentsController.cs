@@ -109,6 +109,7 @@ namespace WebProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             int actualPostID = PostID.Value;
 
             // Create a new comment that will be filled with data 
@@ -116,7 +117,6 @@ namespace WebProject.Controllers
             Comment comment = new Comment();
             comment.PostID = actualPostID;
 
-            //            ViewBag.FanID = new SelectList(db.fans, "ID", "FirstName");
             var redirtectTo = setSelectLists();
 
             if (redirtectTo == null)

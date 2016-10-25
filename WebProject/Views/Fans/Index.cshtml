@@ -12,35 +12,7 @@
     var isAdmin = bool.Parse(user.FindFirst("isAdmin").Value);
 }
 
-<h2>Search Fans</h2>
-@using (Html.BeginForm("SearchFans", "Fans", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        Min Birthday:
-        <input type="date" name="birthday"><br>
-
-        First Name:
-        <input type="text" name="firstName"><br>
-
-        Last Name:
-        <input type="text" name="lastName"><br>
-
-        Min Pazam In Club:
-        <input type="number" name="pazam" value="0"><br>
-
-   <!--     Gender:
-        <input type="range" name="gender" min="Female" max="Male">
-   -->
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Search" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
+@Html.Partial("_SearchFansPartial")
 
 <h1>Index</h1>
 <table class="table">

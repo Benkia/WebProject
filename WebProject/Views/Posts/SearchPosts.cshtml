@@ -16,31 +16,7 @@
     <title>Search Results</title>
 </head>
 
-@using (Html.BeginForm("SearchPosts", "Posts", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        Min Blog Date:
-        <input type="date" name="date"><br>
-
-        Posted by:
-        <input type="text" name="bloggerName"><br>
-
-        Text from comments:
-        <input type="text" name="textFromComments"><br>
-
-        Min comments for post:
-        <input type="range" name="minCommentsPerPost" min="0" max="10", value="0">
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Search" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
+@Html.Partial("_PostSearchPartial")
 
 @foreach (var item in Model)
 {
@@ -85,7 +61,7 @@
                     <section id="comments">
                         @if (item.Comments != null && item.Comments.Count > 0)
                         {
-                            <h2>Comments</h2>
+                            <h1>Comments</h1>
                             foreach (var comment in item.Comments)
                             {
                                 <article>

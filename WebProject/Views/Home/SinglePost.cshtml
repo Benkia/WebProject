@@ -16,34 +16,7 @@
     <title>Browser Page title</title>
 </head>
     <body>
-        <!-- Here starts the blog -->
-       @using (Html.BeginForm("SearchPosts", "Posts", FormMethod.Get))
-       {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <hr />
-            Min Blog Date:
-            <input type="date" name="date"><br>
-
-            Posted by:
-            <input type="text" name="bloggerName"><br>
-
-            Text from comments:
-            <input type="text" name="textFromComments"><br>
-
-            Min comments for post:
-            <input type="range" name="minCommentsPerPost" min="0" max="10", value="0">
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Search" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-       }
-
-        <div id="content">
+       <div id="content">
             <div id="mainContent">
                 <section>
                     <article class="blogPost">
@@ -78,7 +51,7 @@
                 </section>
                 <section id="comments">
                     @if (Model.Comments != null && Model.Comments.Count > 0) { 
-                        <h3>Comments</h3>
+                        <h1>Comments</h1>
                             foreach (var comment in Model.Comments)
                             {
                                 <article>

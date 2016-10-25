@@ -1,0 +1,37 @@
+﻿@using (Html.BeginForm("SearchComments", "Comments", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    <section id="search">
+        <h2>Search Comments</h2>
+
+        <p>
+            <label for="searchDate">Minimal date</label>
+            <input type="date" name="date">
+        </p>
+
+        <p>
+            <label for="searchCommenter">Commented by</label>
+            <input type="text" name="commentedBy">
+        </p>
+
+        <p>
+            <label for="searchComments">Text from comment</label>
+            <input type="text" name="textFromComment">
+        </p>
+
+        <p>
+            <label for="commentTitle">Comment title</label>
+            <input type="text" name="title">
+        </p>
+
+        <p>
+            <label for="postTitle">Post Title</label>
+            <input type="text" name="postTitle">
+        </p>
+
+        <p>
+            <input type="submit" value="Search" class="btn btn-default" />
+        </p>
+    </section>
+}

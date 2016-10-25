@@ -12,35 +12,7 @@
     var isAdmin = bool.Parse(user.FindFirst("isAdmin").Value);
 }
 
-<h2>Search Comments</h2>
-@using (Html.BeginForm("SearchComments", "Comments", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        Min Comment Date:
-        <input type="date" name="date"><br>
-
-        Commented By:
-        <input type="text" name="commentedBy"><br>
-
-        Text From Comment:
-        <input type="text" name="textFromComment"><br>
-
-        Comment Title:
-        <input type="text" name="title"><br>
-
-        Post Title:
-        <input type="text" name="postTitle"><br>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Search" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
+@Html.Partial("_SearchCommentsPartial")
 
 <h1>Search Results</h1>
 <p>

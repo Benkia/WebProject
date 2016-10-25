@@ -13,34 +13,10 @@
 -->
 <html>
 <head>
-	<title>Browser Page title</title>
+    <title>Browser Page title</title>
 </head>
 
-@using (Html.BeginForm("SearchPosts", "Posts", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        Min Blog Date:
-        <input type="date" name="date"><br>
-
-        Bloger name:
-        <input type="text" name="bloggerName"><br>
-
-        Text from comments:
-        <input type="text" name="textFromComments"><br>
-
-        Min comments for post:
-        <input type="range" name="minCommentsPerPost" min="0" max="10", value="0">
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Search" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
+@Html.Partial("_PostSearchPartial")
 
 @foreach (var item in Model)
 {
@@ -54,12 +30,12 @@
                             <header>
                                 <h2>@item.Title</h2>
                                 <p>
-                                    Posted on <time datetime="2009-06-29T23:31+01:00">@item.Date</time> by 
+                                    Posted on <time datetime="2009-06-29T23:31+01:00">@item.Date</time> by
                                     <a href=@item.SiteAddress>
-                                    @if (@item.Fan != null)
-                                    {
-                                        <b>@item.Fan.FirstName @item.Fan.LastName</b>
-                                    }
+                                        @if (@item.Fan != null)
+                                        {
+                                            <b>@item.Fan.FirstName @item.Fan.LastName</b>
+                                        }
                                     </a>
 
                                     @if (item.Comments != null)
@@ -85,7 +61,7 @@
                     <section id="comments">
                         @if (item.Comments != null && item.Comments.Count > 0)
                         {
-                            <h2>Comments</h2>
+                            <h1>Comments</h1>
                             foreach (var comment in item.Comments)
                             {
                                 <article>
@@ -94,7 +70,7 @@
                                         @comment.Text <br />
                                         <a href=@comment.SiteAddress>@comment.Fan.FirstName @comment.Fan.LastName</a> on <time datetime="2009-06-29T23:35:20+01:00">@comment.Date</time>
                                     </div>
-                                    
+
                                 </article>
                             }
                         }
@@ -102,16 +78,16 @@
                     </section>
 
                     <!-- New comment form - sending item.ID to CommentsController, which initializes the new Comment -->
-                    @{Html.RenderAction("AddCommentForPost", "Comments", new { PostID = item.ID });}   
+                    @{Html.RenderAction("AddCommentForPost", "Comments", new { PostID = item.ID });}
                 </div>
             </div>
             <!-- Here ends the blog -->
         </body>
     </div>
-}
-    <div>
-        <h1>
-            @Html.ActionLink("Add New Post", "Create", "Posts")
-        </h1>
-    </div>
+                        }
+<div>
+    <h1>
+        @Html.ActionLink("Add New Post", "Create", "Posts")
+    </h1>
+</div>
 </html>
