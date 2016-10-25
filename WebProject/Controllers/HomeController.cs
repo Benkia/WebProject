@@ -25,7 +25,7 @@ namespace WebProject.Controllers
 
         public ActionResult About()
         {
-            ViewData["Message"] = "This is a web project by Ben Kiani and Naveh Ohana.";
+            ViewData["Message"] = "This is a web project by BNAA Productions ya'll!";
             return View();
         }
 

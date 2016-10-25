@@ -52,7 +52,19 @@
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Text)
+            @{ 
+                const int MAX_CHARACTERS = 100;
+
+                string text = item.Text;
+
+                if (text.Length > MAX_CHARACTERS)
+                {
+                    text = text.Substring(0, MAX_CHARACTERS);
+                }
+
+             }
+
+            @Html.DisplayFor(modelItem => text)
         </td>
         <td>
 
