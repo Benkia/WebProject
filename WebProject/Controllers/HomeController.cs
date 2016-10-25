@@ -38,6 +38,20 @@ namespace WebProject.Controllers
         {
             return View();
         }
+        public ActionResult DataMap()
+        {
+            List<object> allFans = new List<object>();
+            foreach (var item in db.fans.Where(fan => fan.Address != null))
+            {
+                allFans.Add(new { name = item.ID, Address = item.Address });
+            }
+
+            return Json(allFans, "application/json", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Maps()
+        {
+            return View();
+        }
         public ActionResult DataGraph1()
         {
             var result = from fan in db.fans
