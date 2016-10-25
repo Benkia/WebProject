@@ -206,6 +206,22 @@ namespace WebProject.Controllers
             return Json(new { name = "Root", children = result }, "application/json", JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult DataMap()
+        {
+            List<object> allFans = new List<object>();
+            foreach (var item in db.fans.Where(fan => fan.Address != null))
+            {
+                allFans.Add(new { name = item.ID, Address = item.Address });
+            }
+
+            return Json(allFans, "application/json", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Maps()
+        {
+            return View();
+        }
+
         public ActionResult Error()
         {
             return View();

@@ -390,6 +390,7 @@
     <Content Include="Views\Comments\CommentsPerPost.cshtml" />
     <Content Include="Views\Home\Graphs.cshtml" />
     <Content Include="Views\Home\DataGraph1.json" />
+    <Content Include="Views\Home\Maps.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\" />

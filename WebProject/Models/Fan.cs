@@ -15,5 +15,6 @@ namespace WebProject.Models
         public DateTime BirthDay { get; set; }
         public int PazamInClub { get; set; }
         public string UserID { get; set; }
+        public string Address { get; set; }
     }
 }
